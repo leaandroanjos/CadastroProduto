@@ -3,8 +3,8 @@ package br.com.leandro;
 import br.com.leandro.domain.Produto;
 
 import java.util.Map;
-import java.util.Scanner;
 import java.util.TreeMap;
+import javax.swing.*;
 
 public class Programa {
 
@@ -17,22 +17,17 @@ public class Programa {
 
     private static void metodoPrincipal(Map<Integer,Produto> listadeprodutos) {
 
-        Scanner s = new Scanner(System.in);
-        System.out.println("Oque deseja fazer? ");
-        System.out.println("1 - Cadastrar produto ");
-        System.out.println("2 - Alterar produto ");
-        System.out.println("3 - Consultar produto ");
-        System.out.println("4 - Excluir Produto ");
-        System.out.println("5 - Fechar Programa ");
-        String entrada = s.next();
+        String entrada = JOptionPane.showInputDialog(null,
+                "Oque deseja fazer? Digite 1 para cadastrar novo produto,2 para alterar  um produto,3 para consultar um produto, 4 para excluir um produto e 5 para encerrar a aplicação",
+                "Menu Principal", JOptionPane.INFORMATION_MESSAGE);
 
         if (!entrada.equals("1") && !entrada.equals("2") && !entrada.equals("3") && !entrada.equals("4") && !entrada.equals("5")){
-            System.out.println("Entrada não identificada");
+            JOptionPane.showMessageDialog(null,"Entrada inválida", "Erro",JOptionPane.ERROR_MESSAGE);
             metodoPrincipal(listadeprodutos);
         } else if (entrada.equals("1")) {
-            System.out.println("Digite os dados do produto separado por vírgulas");
-            System.out.println("Formato: sku,nome,valor");
-            String ent = s.next();
+            String ent = JOptionPane.showInputDialog(null,
+                    "Digite os dados do produto separado por vírgulas, Formato: sku,nome,valor",
+                    "Cadastro de produto", JOptionPane.INFORMATION_MESSAGE);
             String[] array = new String[3];
             array = ent.split(",");
             Integer sku = Integer.valueOf(array[0]);
@@ -40,62 +35,65 @@ public class Programa {
             Double preco = Double.valueOf(array[2]);
 
             if (listadeprodutos.containsKey(sku)){
-                System.out.println("Já existe um produto com esse SKU cadastrado");
+                JOptionPane.showMessageDialog(null,"Já existe um produto cadastrado com esse SKU", "Erro",JOptionPane.ERROR_MESSAGE);
                 metodoPrincipal(listadeprodutos);
             } else {
                 Produto produto = new Produto(sku, nome, preco);
                 listadeprodutos.put(sku, produto);
-                System.out.println("Produto cadastrado!");
+                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Produto Cadastrado", JOptionPane.INFORMATION_MESSAGE);
                 metodoPrincipal(listadeprodutos);
             }
-
         }
         else if (entrada.equals("2")) {
-            System.out.println("Digite o SKU do produto a ser alterado");
-            Integer ent = s.nextInt();
-            if (!listadeprodutos.containsKey(ent)){
-                System.out.println("Não existe nenhum produto com esse SKU cadastrado");
+            String ent = JOptionPane.showInputDialog(null,
+                    "Digite o sku do produto a ser alterado",
+                    "Alteração de produto", JOptionPane.INFORMATION_MESSAGE);
+            if (!listadeprodutos.containsKey(Integer.valueOf(ent))){
+                JOptionPane.showMessageDialog(null,"Não existe nenhum produto com esse SKU cadastrado", "Erro",JOptionPane.ERROR_MESSAGE);
                 metodoPrincipal(listadeprodutos);
             } else {
-                System.out.println("alterando o produto: " +listadeprodutos.get(ent));
-                System.out.println("Digite os dados do produto separado por vírgulas");
-                System.out.println("Formato: nome,valor");
-                String ent2 = s.next();
+                String ent2 = JOptionPane.showInputDialog(null,
+                        "Produto a ser alterado: "+ listadeprodutos.get(Integer.valueOf(ent)) +" Digite os dados do produto separado por vírgulas, Formato: Nome,valor",
+                        "Cadastro de produto", JOptionPane.INFORMATION_MESSAGE);
                 String[] array = new String[2];
                 array = ent2.split(",");
                 String nome = array[0];
                 Double preco = Double.valueOf(array[1]);
-                Produto produto = new Produto(ent, nome, preco);
-                listadeprodutos.put(ent, produto);
+                Produto produto = new Produto(Integer.valueOf(ent), nome, preco);
+                listadeprodutos.put(Integer.valueOf(ent), produto);
+                JOptionPane.showMessageDialog(null, "Produto alterado com sucesso!", "Produto Alterado", JOptionPane.INFORMATION_MESSAGE);
                 metodoPrincipal(listadeprodutos);
             }
         }
         else if (entrada.equals("3")) {
 
-            System.out.println("Digite o SKU do produto a ser consultado");
-            Integer ent = s.nextInt();
-            if (!listadeprodutos.containsKey(ent)){
-                System.out.println("Não existe nenhum produto com esse SKU cadastrado");
+            String ent = JOptionPane.showInputDialog(null,
+                    "Digite o sku do produto a ser consultado",
+                    "Consultando Produto", JOptionPane.INFORMATION_MESSAGE);
+            if (!listadeprodutos.containsKey(Integer.valueOf(ent))){
+                JOptionPane.showMessageDialog(null,"Não existe nenhum produto com esse SKU cadastrado", "Erro",JOptionPane.ERROR_MESSAGE);
                 metodoPrincipal(listadeprodutos);
             } else {
-                System.out.println(listadeprodutos.get(ent));
+                JOptionPane.showMessageDialog(null, "O produto é: " + listadeprodutos.get(Integer.valueOf(ent)), "Consultando Produto", JOptionPane.INFORMATION_MESSAGE);
                 metodoPrincipal(listadeprodutos);
             }
 
         } else if (entrada.equals("4")) {
-            System.out.println("Digite o SKU do produto a ser excluido");
-            Integer ent = s.nextInt();
-            if (!listadeprodutos.containsKey(ent)){
-                System.out.println("Não existe nenhum produto com esse SKU cadastrado");
+            String ent = JOptionPane.showInputDialog(null,
+                    "Digite o sku do produto a ser excluído",
+                    "Encluindo Produto", JOptionPane.INFORMATION_MESSAGE);
+            if (!listadeprodutos.containsKey(Integer.valueOf(ent))){
+                JOptionPane.showMessageDialog(null,"Não existe nenhum produto com esse SKU cadastrado", "Erro",JOptionPane.ERROR_MESSAGE);
                 metodoPrincipal(listadeprodutos);
             } else {
-                listadeprodutos.remove(ent);
+                listadeprodutos.remove(Integer.valueOf(ent));
+                JOptionPane.showMessageDialog(null, "Produto excluído com sucesso!", "Produto excluído", JOptionPane.INFORMATION_MESSAGE);
                 metodoPrincipal(listadeprodutos);
             }
         }
 
         else if (entrada.equals("5")){
-            System.out.println("Encerrando o programa");
+            JOptionPane.showMessageDialog(null, "Encerrando o Programa", "Fechando Programa", JOptionPane.INFORMATION_MESSAGE);
         }
 
 
