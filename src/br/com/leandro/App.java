@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.*;
 
-public class Programa {
+public class App {
 
     public static void main(String args[]){
 
